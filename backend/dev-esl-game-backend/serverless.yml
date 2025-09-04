@@ -1,0 +1,31 @@
+# "org" ensures this Service is used with the correct Serverless Framework Access Key.
+org: itpspc
+# "app" enables Serverless Framework Dashboard features and sharing them with other Services.
+app: microsites
+# "service" is the name of this project. This will also be added to your AWS resource names.
+service: dev-esl-game-backend
+
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: ap-southeast-1
+  httpApi:
+    cors: true
+  memorySize: 384
+
+plugins:
+  - serverless-dotenv-plugin
+
+functions:
+  api:
+    handler: handler.handler
+    events:
+      - httpApi: "*"
+package:
+  patterns:
+    - '!node_modules/.prisma/client/libquery_engine-*'
+    - 'node_modules/.prisma/client/libquery_engine-rhel-*'
+    - '!node_modules/prisma/libquery_engine-*'
+    - '!node_modules/@prisma/engines/**'
+    - '!node_modules/.cache/prisma/**'  # only required for Windows
