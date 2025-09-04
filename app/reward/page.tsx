@@ -1,6 +1,6 @@
 "use client";
+
 import Image from "next/image";
-import React, { useEffect, FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function Home() {
@@ -17,7 +17,7 @@ export default function Home() {
         <div className="flex flex-col w-full md:w-3/5 lg:w-2/5 bg-white/60 rounded-md shadow-md overflow-hidden">
           {/* Image */}
           <div className="flex justify-center items-center w-full p-2">
-            <img
+            <Image
               alt="basketball-hoop"
               src="/assets/images/basketball-hoop.png"
               className="max-w-full max-h-64 pt-2 object-contain"

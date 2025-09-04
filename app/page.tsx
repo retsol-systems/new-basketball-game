@@ -1,8 +1,8 @@
 "use client";
-import Image from "next/image";
+
 import React, { useEffect, FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
-import axios from "axios";
+import Image from "next/image";
 
 type FormValues = {
   fullName: string;
@@ -83,12 +83,12 @@ export default function Home() {
   };
   const insertData = async () => {
     if (formData !== undefined) {
-      var fullName = formData.fullName;
-      var mobileNumber = formData.mobileNumber.replace(/\s/g, "");
-      var emailAddress =
+      const fullName = formData.fullName;
+      const mobileNumber = formData.mobileNumber.replace(/\s/g, "");
+      const emailAddress =
         formData.emailAddress !== undefined ? formData.emailAddress : "N/A";
-      var brandNewsletter = formData.brand_newsletter ? true : false;
-      var ulpNewsletter = formData.ulp_newsletter ? true : false;
+      const brandNewsletter = formData.brand_newsletter ? true : false;
+      const ulpNewsletter = formData.ulp_newsletter ? true : false;
 
       try {
         fetch(process.env.NEXT_PUBLIC_BASE_URL + "/insert", {
@@ -145,7 +145,7 @@ export default function Home() {
         <div className="flex flex-col w-full md:w-3/5 lg:w-2/5 bg-white rounded-lg shadow-md overflow-hidden">
           {/* Image */}
           <div className="flex justify-center items-center w-full p-2">
-            <img
+            <Image
               alt="basketball-hoop"
               src="/assets/images/basketball-hoop.png"
               className="max-w-full max-h-64 pt-2 object-contain"
