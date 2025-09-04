@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Basketball Game</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/assets/basketball/css/font-loader.css"
+    />
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/phaser/2.6.2/phaser.min.js"
+    ></script>
+    <style type="text/css">
+      body {
+        margin: 0;
+        background: cadetblue;
+      }
+
+      canvas {
+        padding: 0;
+        margin: auto;
+        display: block;
+        position: absolute;
+        border: thin solid black;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <script type="text/javascript">
+      var gameParams = computeGameParams()
+
+      var accepted = sessionStorage.getItem("accepted")
+      var fullName = sessionStorage.getItem("fullName")
+      var mobileNumber = sessionStorage.getItem("mobileNumber")
+      var emailAddress = sessionStorage.getItem("emailAddress")
+      var score = sessionStorage.getItem("score")
+
+     /* if ((fullName === null) || (mobileNumber === null) || (emailAddress === null)) {
+        window.location.href = '/basketball/user-form'
+      }
+      else if (score !== null) {
+        window.location.href = '/basketball/rewards-select'
+      }  */
+      // TODO
+      // add a check here if the user has already submitted the info using the form
+      // if not yet submitted, redirect to user form
+      const game = new Phaser.Game(
+        gameParams.width,
+        gameParams.height,
+        Phaser.CANVAS,
+        '',
+        {
+          preload: preload,
+          create: create,
+          update: update,
+        }
+      )
+
+      function preload() {
+        game.load.image('arcade', '/assets/basketball/images/arcade.png')
+        game.load.image('ball', '/assets/basketball/images/ball.png')
+        game.load.image('side rim', '/assets/basketball/images/side_rim.png')
+        game.load.image('front rim', '/assets/basketball/images/front_rim.png')
+        if (gameParams.playAudio) {
+          game.load.audio('score', '/assets/basketball/audio/score.wav')
+          game.load.audio('backboard', '/assets/basketball/audio/backboard.wav')
+          game.load.audio('whoosh', '/assets/basketball/audio/whoosh.wav')
+          game.load.audio('spawn', '/assets/basketball/audio/spawn.wav')
+          game.load.audio('buzzer', '/assets/basketball/audio/buzzer.wav')
+        }
+      }
+
+      const TIME = 5000 // 30 seconds
+
+      var leftRimSprite, rightRimSprite, frontRimSprite, ballSprite
+      var scoreSound, rimHitSound, throwSound, spawnSound, buzzerSound
+      var collisionGroup
+      var score = 0,
+        scoreText,
+        timeLeftText,
+        gameIsOver = false,
+        endTime, // time in millis that signifies the end of the game when hit
+        timeLeft = 0,
+        timeExpired = false // turns to true when timeLeft gets to 0
+      var digital7Loaded
+      var bgImageScale
+
+      function create() {
+        const backgroundImage = game.add.image(0, 0, 'arcade')
+        bgImageScale = gameParams.width / backgroundImage.width
+        backgroundImage.scale.setTo(bgImageScale, bgImageScale)
+
+        leftRimSprite = game.add.sprite(
+          gameParams.leftRimXPos,
+          gameParams.sideRimsYPos,
+          'side rim'
+        )
+        rightRimSprite = game.add.sprite(
+          gameParams.rightRimXPos,
+          gameParams.sideRimsYPos,
+          'side rim'
+        )
+        frontRimSprite = game.add.sprite(
+          gameParams.frontRimXPos,
+          gameParams.frontRimYPos,
+          'front rim'
+        )
+        // The code below assumes the front rim image has been
+        // cropped from the arcade image and not changed in size
+        frontRimSprite.scale.setTo(bgImageScale, bgImageScale)
+
+        game.physics.startSystem(Phaser.Physics.P2JS)
+        game.physics.p2.setImpactEvents(true)
+        game.physics.p2.restitution = 0.63
+        game.physics.p2.gravity.y = 0
+        game.physics.p2.enable([leftRimSprite, rightRimSprite], false)
+
+        collisionGroup = game.physics.p2.createCollisionGroup()
+
+        if (gameParams.playAudio) {
+          scoreSound = game.add.audio('score')
+          rimHitSound = game.add.audio('backboard')
+          rimHitSound.volume = 0.3
+          throwSound = game.add.audio('whoosh')
+          spawnSound = game.add.audio('spawn')
+          buzzerSound = game.add.audio('buzzer')
+          buzzerSound.volume = 0.3
+          buzzerSound.onStop.add(gameOver, this)
+        }
+
+        scoreText = game.add.text(0, 0, '', {
+          font: 'Digital-7 Mono',
+          fontSize: `${gameParams.digitsFontSize}px`,
+          fill: '#FF3131',
+          boundsAlignH: 'right',
+          boundsAlignV: 'center',
+        })
+        scoreText.setTextBounds(
+          gameParams.scoreXPos,
+          gameParams.scoreYPos,
+          0,
+          0
+        )
+        scoreText.visible = false
+
+        timeLeftText = game.add.text(0, 0, '', {
+          font: 'Digital-7 Mono',
+          fontSize: `${gameParams.digitsFontSize}px`,
+          fill: '#FF3131',
+          boundsAlignH: 'right',
+          boundsAlignV: 'center',
+        })
+        timeLeftText.setTextBounds(
+          gameParams.timeLeftXPos,
+          gameParams.timeLeftYPos,
+          0,
+          0
+        )
+        timeLeftText.visible = false
+
+        leftRimSprite.body.setCircle(2.5)
+        leftRimSprite.body.static = true
+        leftRimSprite.body.setCollisionGroup(collisionGroup)
+        leftRimSprite.body.collides([collisionGroup])
+        rightRimSprite.body.setCircle(2.5)
+        rightRimSprite.body.static = true
+        rightRimSprite.body.setCollisionGroup(collisionGroup)
+        rightRimSprite.body.collides([collisionGroup])
+
+        cursors = game.input.keyboard.createCursorKeys()
+
+        game.input.onDown.add(click, this)
+        game.input.onUp.add(release, this)
+
+        const existingEndTime = sessionStorage.getItem('endTime')
+        if (existingEndTime) {
+          endTime = existingEndTime
+          const now = new Date()
+          if (now.getTime() >= endTime) {
+            gameOver()
+          }
+        }
+
+        const existingScore = sessionStorage.getItem('score')
+        if (existingScore) {
+          score = Number(existingScore)
+        }
+
+        createBall()
+      }
+
+      function timerStart() {
+        const now = new Date()
+        endTime = now.getTime() + TIME
+        sessionStorage.setItem('endTime', endTime)
+      }
+
+      function timesUp() {
+        if (!ballSprite.launched) {
+          ballSprite.kill()
+        }
+        if (gameParams.playAudio) {
+          playSound(buzzerSound)
+        } else {
+          gameOver()
+        }
+      }
+
+      function update() {
+        if (ballSprite && ballSprite.body.velocity.y > 0) {
+          frontRimSprite.bringToTop()
+          ballSprite.body.collides([collisionGroup], hitRim, this)
+        }
+
+        if (
+          ballSprite &&
+          ballSprite.body.velocity.y > 0 &&
+          ballSprite.body.y > gameParams.belowHoopHeight &&
+          !ballSprite.isBelowHoop
+        ) {
+          ballSprite.isBelowHoop = true
+          ballSprite.body.collideWorldBounds = false
+          if (
+            ballSprite.body.x > gameParams.leftWinningRange &&
+            ballSprite.body.x < gameParams.rightWinningRange
+          ) {
+            score += 1
+            playSound(scoreSound)
+            sessionStorage.setItem('score', score)
+          }
+        }
+
+        const now = new Date()
+        timeLeft = endTime > now.getTime() ? endTime - now.getTime() : 0
+        if (timeLeft == 0 && endTime && !timeExpired) {
+          timeExpired = true
+          timesUp()
+        }
+
+        if (ballSprite && ballSprite.body.y > gameParams.ballDeadEnd) {
+          game.physics.p2.gravity.y = 0
+          ballSprite.kill()
+          if (timeLeft > 0) {
+            createBall()
+          }
+        }
+
+        timeLeftText.text = Math.ceil(timeLeft / 1000)
+        scoreText.text = score
+
+        // Mostly used for loading our custom font for the first time
+        if (
+          !digital7Loaded &&
+          document.fonts.check(`${gameParams.digitsFontSize}px Digital-7 Mono`)
+        ) {
+          timeLeftText.visible = true
+          scoreText.visible = true
+          digital7Loaded = true
+        }
+      }
+
+      function hitRim() {
+        playSound(rimHitSound)
+      }
+
+      function createBall() {
+        var xpos
+        if (score === 0) {
+          xpos = gameParams.firstScoreBallSpawnXPos
+        } else {
+          xpos =
+            getPercent(15, gameParams.width) +
+            Math.random() *
+              (gameParams.width - getPercent(30, gameParams.width))
+        }
+        playSound(spawnSound)
+        ballSprite = game.add.sprite(xpos, gameParams.ballSpawnYPos, 'ball')
+        // Ball is currently meant for a 405 width resolution
+        // TODO get a better ball
+        const ballImageScale = gameParams.width / 405
+        ballSprite.scale.setTo(ballImageScale, ballImageScale)
+        game.add.tween(ballSprite.scale).from(
+          {
+            x: ballSprite.scale.x * 0.7,
+            y: ballSprite.scale.y * 0.7,
+          },
+          100,
+          Phaser.Easing.Linear.None,
+          true,
+          0,
+          0,
+          false
+        )
+        game.physics.p2.enable(ballSprite, false)
+        ballSprite.body.setCircle((ballImageScale / 2) * 120) // NOTE: Goes from 60 to 36
+        ballSprite.launched = false
+        ballSprite.isBelowHoop = false
+      }
+
+      var location_interval
+      var isDown = false
+      var start_location
+      var end_location
+
+      function click(pointer) {
+        var bodies = game.physics.p2.hitTest(pointer.position, [
+          ballSprite.body,
+        ])
+        if (bodies.length) {
+          start_location = [pointer.x, pointer.y]
+          isDown = true
+          location_interval = setInterval(
+            function () {
+              start_location = [pointer.x, pointer.y]
+            }.bind(this),
+            200
+          )
+        }
+      }
+
+      function release(pointer) {
+        if (isDown) {
+          window.clearInterval(location_interval)
+          isDown = false
+          end_location = [pointer.x, pointer.y]
+          if (end_location[1] < start_location[1]) {
+            var angleDegrees =
+              calcAngleDegrees(
+                end_location[0] - start_location[0],
+                (end_location[1] - start_location[1]) * -1
+              ) - 90
+            var x_traj =
+              gameParams.ballLaunchVelocityY * getTanFromDegrees(angleDegrees)
+            launch(x_traj)
+          }
+        }
+      }
+
+      function calcAngleDegrees(x, y) {
+        return (Math.atan2(y, x) * 180) / Math.PI
+      }
+
+      function getTanFromDegrees(degrees) {
+        return Math.tan((degrees * Math.PI) / 180)
+      }
+
+      function launch(x_traj) {
+        if (ballSprite.launched === false && !timeExpired) {
+          ballSprite.body.setCircle((120 * (ballSprite.scale.x * 0.6)) / 2) // 120 is the size of the ball image
+          ballSprite.body.setCollisionGroup(collisionGroup)
+          ballSprite.launched = true
+          game.physics.p2.gravity.y = gameParams.gravity
+          game.add.tween(ballSprite.scale).to(
+            {
+              x: ballSprite.scale.x * 0.6,
+              y: ballSprite.scale.y * 0.6,
+            },
+            500,
+            Phaser.Easing.Linear.None,
+            true,
+            0,
+            0,
+            false
+          )
+          ballSprite.body.velocity.x = x_traj
+          ballSprite.body.velocity.y = gameParams.ballLaunchVelocityY
+          ballSprite.body.rotateRight(x_traj / gameParams.ballSpinRate)
+          playSound(throwSound)
+
+          // if endTime is not yet set, start the timer
+          if (!endTime) {
+            timerStart()
+          }
+        }
+      }
+
+      function playSound(sound) {
+        if (gameParams.playAudio) {
+          sound.play()
+        }
+      }
+
+      function gameOver() {
+        if ((ballSprite && ballSprite.alive) || gameIsOver) {
+          return
+        }
+        gameIsOver = true
+        window.location.href = '/basketball/rewards-select'
+      }
+
+      function computeGameParams() {
+        const gameParams = {}
+        const windowWidth = window.innerWidth - 10
+        const windowHeight = window.innerHeight - 10
+        // evaluate the window height and width to determine
+        // the largest size we can render the game on a
+        // 9x14 aspect ratio.
+        if (
+          windowWidth < windowHeight &&
+          windowWidth * (14 / 9) < windowHeight
+        ) {
+          gameParams.width = windowWidth
+          gameParams.height = gameParams.width * (14 / 9)
+        } else {
+          gameParams.height = windowHeight
+          gameParams.width = gameParams.height * (9 / 14)
+        }
+        // Computation of game values for dynamic resolution.
+        // To achieve this, we use percentages. We only use
+        // the game width and not the height so we can still
+        // adjust the height if needed (e.g. turning the game to
+        // 9x15 aspect ratio).
+        var x = gameParams.width
+        gameParams.sideRimsYPos = getPercent(45.43, x)
+        gameParams.leftRimXPos = getPercent(38.27, x)
+        gameParams.rightRimXPos = getPercent(62.96, x)
+        gameParams.digitsFontSize = getPercent(12.35, x)
+        gameParams.scoreXPos = getPercent(74.32, x)
+        gameParams.scoreYPos = getPercent(3.95, x)
+        gameParams.timeLeftXPos = getPercent(37.28, x)
+        gameParams.timeLeftYPos = getPercent(3.95, x)
+        gameParams.frontRimXPos = getPercent(37.13, x)
+        gameParams.frontRimYPos = getPercent(45.56, x)
+        gameParams.belowHoopHeight = getPercent(46.42, x)
+        gameParams.leftWinningRange = getPercent(37.28, x)
+        gameParams.rightWinningRange = getPercent(61.48, x)
+        gameParams.ballDeadEnd = getPercent(296.3, x)
+        gameParams.firstScoreBallSpawnXPos = getPercent(50, x)
+        gameParams.ballSpawnYPos = getPercent(135.06, x)
+        gameParams.gravity = getPercent(740.74, x)
+        gameParams.ballLaunchVelocityY = getPercent(410, x) * -1
+        gameParams.ballSpinRate = getPercent(0.74, x)
+        // Code to determine if browser being used is Safari.
+        // Safari has issues playing wav files so we disable audio
+        // for this browser.
+        var userAgentString = navigator.userAgent
+        var chromeAgent = userAgentString.indexOf('Chrome') > -1
+        var safariAgent = userAgentString.indexOf('Safari') > -1
+        if (chromeAgent && safariAgent) safariAgent = false // if chromeAgent is true, then safariAgent is a false-flag
+        gameParams.playAudio = !safariAgent
+
+        return gameParams
+      }
+
+      function getPercent(percent, percentOf) {
+        return (percent * percentOf) / 100
+      }
+    </script>
+  </body>
+</html>
