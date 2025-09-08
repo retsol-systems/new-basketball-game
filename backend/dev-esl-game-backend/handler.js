@@ -25,7 +25,8 @@ app.post("/insert", async (req, res) => {
   try {
     const {
         fullName,
-        mobileNumber,
+        storexNumber,
+        // mobileNumber,
         emailAddress,
         brand_Newsletter,
         ulp_Newsletter,
@@ -33,6 +34,7 @@ app.post("/insert", async (req, res) => {
 
     const newUser = await prisma.user.create({
       data: {
+        storexNumber,
         fullName,
         mobileNumber,
         emailAddress,
