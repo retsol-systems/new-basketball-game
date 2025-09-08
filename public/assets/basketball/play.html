@@ -38,7 +38,8 @@
 
       var accepted = sessionStorage.getItem("accepted");
       var fullName = sessionStorage.getItem("fullName");
-      var mobileNumber = sessionStorage.getItem("mobileNumber");
+      // var mobileNumber = sessionStorage.getItem("mobileNumber");
+      var StorexNumber = sessionStorage.getItem("storexNumber");
       var emailAddress = sessionStorage.getItem("emailAddress");
       var score = sessionStorage.getItem("score");
 
@@ -81,7 +82,7 @@
         }
       }
 
-      const TIME = 10000; // 30 seconds
+      const TIME = 5000; // 30 seconds
 
       var leftRimSprite, rightRimSprite, frontRimSprite, ballSprite;
       var scoreSound, rimHitSound, throwSound, spawnSound, buzzerSound;
@@ -397,7 +398,7 @@
           return;
         }
         gameIsOver = true;
-        window.location.href = "/reward";
+        window.location.href = "/selection";
       }
 
       function computeGameParams() {

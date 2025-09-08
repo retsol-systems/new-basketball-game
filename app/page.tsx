@@ -3,8 +3,7 @@
 import React, { useEffect, FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import React, { useEffect, FormEvent, useState } from 'react'
-import { useRouter } from 'next/navigation'
+
 import axios from "axios";
 
 type FormValues = {
@@ -19,13 +18,7 @@ type FormValues = {
 
 export default function Home() {
   const router = useRouter();
-  useEffect(() => {});
-  const [formData, setFormData] = useState<FormValues>({
-  const router = useRouter()
-  useEffect(() => {
 
-
-  })
   const [formData, setFormData] = useState<FormValues>({
     fullName: "",
     // mobileNumber: "",
@@ -151,21 +144,9 @@ export default function Home() {
       }
     }
   };
-    }
-  }
+   
+  
   return (
-    <div className="font-sans flex flex-col items-center justify-center w-full min-h-screen bg-red-400 p-4 overflow-hidden">
-      <main className="flex flex-col md:flex-row gap-8 items-center md:items-start justify-center w-full max-w-6xl">
-        {/* Left section */}
-        <div className="flex flex-col w-full md:w-3/5 lg:w-2/5 bg-white rounded-lg shadow-md overflow-hidden">
-          {/* Image */}
-          <div className="flex justify-center items-center w-full p-2">
-            <Image
-              alt="basketball-hoop"
-              src="/assets/images/basketball-hoop.png"
-              className="max-w-full max-h-64 pt-2 object-contain"
-            />
-          </div>
     <div className="font-sans flex flex-col items-center justify-center w-full min-h-screen bg-[#549ea0] p-4 overflow-hidden">
       <main className="flex flex-col md:flex-row gap-8 items-center md:items-start justify-center w-full max-w-6xl">
         {/* Left section */}
@@ -196,28 +177,6 @@ export default function Home() {
                   className="mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
                 />
                 {errors.fullName && (
-                  <span className="text-red-500 text-sm">
-                    {errors.fullName}
-                  </span>
-                )}
-              </div>
-          <div className=" w-full p-2 h-3/5">
-            <form
-              onSubmit={handleSubmit}
-              className="flex flex-col gap-4 mx-auto p-4 bg-white  rounded-lg"
-            >
-              {/* Full Name */}
-              <div className="flex flex-col">
-                <label className="font-medium">Full Name</label>
-                <input
-                  type="text"
-                  name="fullName"
-                  value={formData.fullName}
-                  onChange={handleChange}
-                  placeholder="Juan Dela Cruz"
-                  className="mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
-                />
-                {errors.fullName && (
                   <span className="text-red-500 text-sm">{errors.fullName}</span>
                 )}
               </div>
@@ -225,14 +184,18 @@ export default function Home() {
               {/* Mobile Number */}
               <div className="flex flex-col">
                 <label className="font-medium">Account Number</label>
-                <input
-                  type="text"
-                  name="storexNumber"
-                  value={formData.storexNumber}
-                  onChange={handleChange}
-                  placeholder="+63 XXX XXX XXXX"
-                  className="mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
-                />
+<input
+  type="text"
+  name="storexNumber"
+  value={formData.storexNumber}
+  onChange={handleChange}
+  minLength={13}
+  maxLength={13}
+  inputMode="numeric"
+  pattern="[0-9]*"
+  placeholder="xxxxxxxxxxxxx"
+  className="mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+/>
                 {errors.storexNumber && (
                   <span className="text-red-500 text-sm">{errors.storexNumber}</span>
                 )}
@@ -255,19 +218,7 @@ export default function Home() {
               </div>
 
               {/* Checkboxes */}
-              <label className="text-sm">
-                <input
-                  type="checkbox"
-                  name="accepted"
-                  checked={formData.accepted}
-                  onChange={handleChange}
-                  className="mr-2"
-                />
-                I confirm that I am 18 years old
-              </label>
-              {errors.accepted && (
-                <span className="text-red-500 text-sm">{errors.accepted}</span>
-              )}
+          
               {/* Checkboxes */}
               <label className="text-sm">
                 <input
@@ -296,17 +247,6 @@ export default function Home() {
               <label className="text-sm">
                 <input
                   type="checkbox"
-                  name="brand_newsletter"
-                  checked={formData.brand_newsletter}
-                  onChange={handleChange}
-                  className="mr-2"
-                />
-                Sign me up to receive exciting news and offers from Rexona
-              </label>
-
-              <label className="text-sm">
-                <input
-                  type="checkbox"
                   name="ulp_newsletter"
                   checked={formData.ulp_newsletter}
                   onChange={handleChange}
@@ -315,9 +255,6 @@ export default function Home() {
                 Sign me up to receive exciting news and offers from other Unilever brands
               </label>
 
-              {errorMessage && (
-                <span className="text-red-500 text-sm">{errorMessage}</span>
-              )}
               {errorMessage && (
                 <span className="text-red-500 text-sm">{errorMessage}</span>
               )}
@@ -349,15 +286,7 @@ export default function Home() {
             </form>
           </div>
         </div>
-              <button
-                type="submit"
-                className="mt-2 py-2 px-4 bg-orange-600 text-white rounded-md hover:bg-orange-700 transition"
-              >
-                Submit
-              </button>
-            </form>
-          </div>
-        </div>
+             
       </main>
 
     </div>
