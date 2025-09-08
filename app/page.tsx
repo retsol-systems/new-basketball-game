@@ -1,4 +1,7 @@
-'use client'
+"use client";
+
+import React, { useEffect, FormEvent, useState } from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import React, { useEffect, FormEvent, useState } from 'react'
 import { useRouter } from 'next/navigation'
@@ -15,6 +18,9 @@ type FormValues = {
 };
 
 export default function Home() {
+  const router = useRouter();
+  useEffect(() => {});
+  const [formData, setFormData] = useState<FormValues>({
   const router = useRouter()
   useEffect(() => {
 
@@ -84,7 +90,6 @@ export default function Home() {
     setErrorMessage("");
   };
 
-
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     if (validate()) {
@@ -145,8 +150,22 @@ export default function Home() {
         console.log(e);
       }
     }
+  };
+    }
   }
   return (
+    <div className="font-sans flex flex-col items-center justify-center w-full min-h-screen bg-red-400 p-4 overflow-hidden">
+      <main className="flex flex-col md:flex-row gap-8 items-center md:items-start justify-center w-full max-w-6xl">
+        {/* Left section */}
+        <div className="flex flex-col w-full md:w-3/5 lg:w-2/5 bg-white rounded-lg shadow-md overflow-hidden">
+          {/* Image */}
+          <div className="flex justify-center items-center w-full p-2">
+            <Image
+              alt="basketball-hoop"
+              src="/assets/images/basketball-hoop.png"
+              className="max-w-full max-h-64 pt-2 object-contain"
+            />
+          </div>
     <div className="font-sans flex flex-col items-center justify-center w-full min-h-screen bg-[#549ea0] p-4 overflow-hidden">
       <main className="flex flex-col md:flex-row gap-8 items-center md:items-start justify-center w-full max-w-6xl">
         {/* Left section */}
@@ -160,6 +179,28 @@ export default function Home() {
             />
           </div>
 
+          <div className=" w-full p-2 h-3/5">
+            <form
+              onSubmit={handleSubmit}
+              className="flex flex-col gap-4 mx-auto p-4 bg-white  rounded-lg"
+            >
+              {/* Full Name */}
+              <div className="flex flex-col">
+                <label className="font-medium">Full Name</label>
+                <input
+                  type="text"
+                  name="fullName"
+                  value={formData.fullName}
+                  onChange={handleChange}
+                  placeholder="Juan Dela Cruz"
+                  className="mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                />
+                {errors.fullName && (
+                  <span className="text-red-500 text-sm">
+                    {errors.fullName}
+                  </span>
+                )}
+              </div>
           <div className=" w-full p-2 h-3/5">
             <form
               onSubmit={handleSubmit}
@@ -227,7 +268,31 @@ export default function Home() {
               {errors.accepted && (
                 <span className="text-red-500 text-sm">{errors.accepted}</span>
               )}
+              {/* Checkboxes */}
+              <label className="text-sm">
+                <input
+                  type="checkbox"
+                  name="accepted"
+                  checked={formData.accepted}
+                  onChange={handleChange}
+                  className="mr-2"
+                />
+                I confirm that I am 18 years old
+              </label>
+              {errors.accepted && (
+                <span className="text-red-500 text-sm">{errors.accepted}</span>
+              )}
 
+              <label className="text-sm">
+                <input
+                  type="checkbox"
+                  name="brand_newsletter"
+                  checked={formData.brand_newsletter}
+                  onChange={handleChange}
+                  className="mr-2"
+                />
+                Sign me up to receive exciting news and offers from Rexona
+              </label>
               <label className="text-sm">
                 <input
                   type="checkbox"
@@ -253,6 +318,9 @@ export default function Home() {
               {errorMessage && (
                 <span className="text-red-500 text-sm">{errorMessage}</span>
               )}
+              {errorMessage && (
+                <span className="text-red-500 text-sm">{errorMessage}</span>
+              )}
 
               <p className="text-xs text-justify text-gray-600">
                 <i>
@@ -272,6 +340,15 @@ export default function Home() {
                 </i>
               </p>
 
+              <button
+                type="submit"
+                className="mt-2 py-2 px-4 bg-orange-600 text-white rounded-md hover:bg-orange-700 transition"
+              >
+                Submit
+              </button>
+            </form>
+          </div>
+        </div>
               <button
                 type="submit"
                 className="mt-2 py-2 px-4 bg-orange-600 text-white rounded-md hover:bg-orange-700 transition"
