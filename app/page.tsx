@@ -94,12 +94,12 @@ export default function Home() {
   };
   const insertData = async () => {
     if (formData !== undefined) {
-      var fullName = formData.fullName
-      var storexNumber = formData.storexNumber
+      let fullName = formData.fullName
+      let storexNumber = formData.storexNumber
       // var mobileNumber = formData.mobileNumber.replace(/\s/g, '')
-      var emailAddress = formData.emailAddress !== undefined ? formData.emailAddress : "N/A"
-      var brandNewsletter = formData.brand_newsletter ? true : false
-      var ulpNewsletter = formData.ulp_newsletter ? true : false
+      let emailAddress = formData.emailAddress !== undefined ? formData.emailAddress : "N/A"
+      let brandNewsletter = formData.brand_newsletter ? true : false
+      let ulpNewsletter = formData.ulp_newsletter ? true : false
 
       try {
         fetch(process.env.NEXT_PUBLIC_BASE_URL + "/insert", {
