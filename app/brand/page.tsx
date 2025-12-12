@@ -59,7 +59,7 @@ useEffect(() => {
     const slug = selectedProduct.name.toLowerCase();
 
     // Random pick: 0 or 1
-    const random = Math.random() < 0.5 ? "video" : "info";
+    const random = Math.random() < 0.5 ? "video" : "video";
 
     router.push(`/brand/content/${random}/${slug}`);
   }

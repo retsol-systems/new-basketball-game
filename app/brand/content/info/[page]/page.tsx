@@ -17,17 +17,18 @@ export default function Home() {
   const router = useRouter();
   const rawSelected = sessionStorage.getItem("selected");
   const [imageExists, setImageExists] = useState(true);
- try {
+
+
+
+  console.log(selected)
+  // Pause when tab not visible
+   try {
    setSelected(rawSelected ? JSON.parse(rawSelected) : null);
   } catch (err) {
     console.error("Failed to parse sessionStorage.selected:", err);
    setSelected(null)
   }
   
-
-
-  console.log(selected)
-  // Pause when tab not visible
   useEffect(() => {
 
     if(!imageExists){

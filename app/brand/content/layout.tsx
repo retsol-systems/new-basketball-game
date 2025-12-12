@@ -3,14 +3,19 @@
 import ".././globals.css";
 import { useState, useEffect } from "react";
 import { useRouter } from 'next/navigation';
-
+interface Config {
+  color: string;
+  background: string;
+  foreground: string;
+}
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
 
-  const [config, setConfig] = useState<any>(null);
+  
+const [config, setConfig] = useState<Config | null>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -34,7 +39,7 @@ export default function RootLayout({
   
   const backgroundKey = config?.background ?? "default";
 
-  console.log(config);
+  console.log(config + "11");
 
   return (
     <div

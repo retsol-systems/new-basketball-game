@@ -23,17 +23,17 @@ export default function Home() {
   const router = useRouter();
   const rawSelected = sessionStorage.getItem("selected");
  
-  try {
+
+
+  // Pause when tab not visible
+  useEffect(() => {
+      try {
    setSelected(rawSelected ? JSON.parse(rawSelected) : null);
   } catch (err) {
     console.error("Failed to parse sessionStorage.selected:", err);
    setSelected(null)
   }
   
-
-  console.log(selected)
-  // Pause when tab not visible
-  useEffect(() => {
     const handleVisibilityChange = () => {
       if (document.hidden) setPlaying(false);
     };
