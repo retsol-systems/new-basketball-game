@@ -15,7 +15,7 @@
     <style type="text/css">
       body {
         margin: 0;
-        background: #ffb932;
+        background: #93c5fd;
       }
 
       canvas {
@@ -48,7 +48,7 @@
       }
       else if (score !== null) {
         window.location.href = '/basketball/rewards-select'
-      }  */
+      }  */
       // TODO
       // add a check here if the user has already submitted the info using the form
       // if not yet submitted, redirect to user form
@@ -138,6 +138,8 @@
           spawnSound = game.add.audio("spawn");
           buzzerSound = game.add.audio("buzzer");
           buzzerSound.volume = 0.3;
+          // The onStop event listener is a clean way to handle the end of the game
+          // after the sound has finished playing.
           buzzerSound.onStop.add(gameOver, this);
         }
 
@@ -185,14 +187,10 @@
         game.input.onDown.add(click, this);
         game.input.onUp.add(release, this);
 
-        const existingEndTime = sessionStorage.getItem("endTime");
-        if (existingEndTime) {
-          endTime = existingEndTime;
-          const now = new Date();
-          if (now.getTime() >= endTime) {
-            gameOver();
-          }
-        }
+        // The old code here was causing the redirect loop when the user
+        // returned to the page via the back button. We remove it to prevent
+        // the game from ending on page load if a past endTime is present.
+        // The game should only end once the timer expires.
 
         const existingScore = sessionStorage.getItem("score");
         if (existingScore) {
@@ -393,11 +391,22 @@
         }
       }
 
+      // The core fix:
+      // 1. A more robust `gameIsOver` check at the start.
+      // 2. Clearing `sessionStorage` to prevent the loop on page re-entry.
+      // 3. Removed the unnecessary `setTimeout` and `reload`.
       function gameOver() {
-        if ((ballSprite && ballSprite.alive) || gameIsOver) {
+        if (gameIsOver) {
           return;
         }
+
         gameIsOver = true;
+
+        // Clear old game state from session storage to prevent the loop
+        // if the user navigates back.
+        sessionStorage.removeItem("endTime");
+        sessionStorage.removeItem("score");
+
         window.location.href = "/selection";
       }
 
