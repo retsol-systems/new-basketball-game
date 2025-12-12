@@ -2,26 +2,28 @@
 import { useState, useRef, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { useParams, useRouter } from "next/navigation";
-
+interface PromoProps {
+  name: string;
+  color: string;
+  description: string;
+}
 export default function Home() {
   const params = useParams();
   const brand = params?.page;
   const infoGraphicImage = `/assets/${brand}.jpg`;
 
-  const [played, setPlayed] = useState(0);
-  const [isMuted, setisMuted] = useState(false);
+  const [selected, setSelected] = useState<PromoProps | null>(null);
   const [playing, setPlaying] = useState(false); // start paused
-  const playerRef = useRef(null);
   const router = useRouter();
   const rawSelected = sessionStorage.getItem("selected");
   const [imageExists, setImageExists] = useState(true);
-  let selected: any = null;
-  try {
-    selected = rawSelected ? JSON.parse(rawSelected) : null;
+ try {
+   setSelected(rawSelected ? JSON.parse(rawSelected) : null);
   } catch (err) {
     console.error("Failed to parse sessionStorage.selected:", err);
-    selected = null;
+   setSelected(null)
   }
+  
 
 
   console.log(selected)
@@ -65,15 +67,15 @@ bar.style.transform = "scaleX(0)";
 
           <div className="w-full h-1/5 flex flex-col py-3 justify-center items-center">
             <span className="text-2xl font-semibold">View and Win</span>
-            <span className="text-md italic">{selected.description}</span>
+            <span className="text-md italic">{selected?.description}</span>
           </div>
 
           <div className="w-full h-4/7 px-4 flex flex-col justify-center items-center">
           
             <img src={infoGraphicImage} alt={`${brand} image`} className="max-w-48 w-full" 
-                 
+                  // typescript error and everything elese
               //@ts-expect-error
-              // typescript error
+              // typescript error and everything elese
             onError={(e)=>{e.target.onError = null; router.push('/')}}/>
            
           </div>
