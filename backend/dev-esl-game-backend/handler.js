@@ -36,7 +36,7 @@ app.post("/insert", async (req, res) => {
       data: {
         storexNumber,
         fullName,
-        mobileNumber,
+        // mobileNumber,
         emailAddress,
         brand_Newsletter,
         ulp_Newsletter,
