@@ -152,10 +152,10 @@ export default function Home() {
   };
 
   return (
-    <div className="font-sans flex flex-col items-center justify-center w-full min-h-screen bg-gradient-to-br from-blue-300 to-gray-200 p-4 overflow-hidden">
+    <div className="font-sans flex flex-col items-center justify-center w-full min-h-screen bg-[#d6c725] p-4 overflow-hidden">
       <main className="flex flex-col md:flex-row gap-8 items-center md:items-start justify-center w-full max-w-6xl">
         {/* Left section */}
-        <div className="flex flex-col w-full md:w-3/5 lg:w-2/5 bg-gradient-to-br from-blue-300 to-gray-200 shadow-md overflow-hidden">
+        <div className="flex flex-col w-full md:w-3/5 lg:w-2/5 bg-white rounded-xl shadow-md overflow-hidden">
           {/* Image */}
           <div className="flex justify-center items-center w-full p-2">
             <img
@@ -168,7 +168,7 @@ export default function Home() {
           <div className=" w-full p-2 h-3/5">
             <form
               onSubmit={handleSubmit}
-              className="flex flex-col gap-4 mx-auto p-4 bg-gradient-to-br from-blue-300 to-gray-200 rounded-lg"
+              className="flex flex-col gap-4 mx-auto p-4 bg-white rounded-lg"
             >
               {/* Full Name */}
               <div className="flex flex-col">
@@ -207,9 +207,9 @@ export default function Home() {
                 )}
               </div>{" "}
               <div className="flex items-center gap-2">
-                <div className="w-full bg-blue-200 h-1"></div>
+                <div className="w-full bg-[#0080C4] h-1"></div>
                 <h1 className="text-gray-700">OR</h1>
-                <div className="w-full bg-blue-200 h-1"></div>
+                <div className="w-full bg-[#0080C4] h-1"></div>
               </div>
               {/* Mobile Number */}
               <div className="flex flex-col">
@@ -295,7 +295,7 @@ export default function Home() {
               </p>
               <button
                 type="submit"
-                className="mt-2 py-2 px-4 bg-orange-600 text-white font-semibold sha rounded-md hover:bg-orange-700 transition"
+                className="mt-2 py-2 px-4 bg-[#dc0046] text-white font-semibold sha rounded-md hover:bg-red-700 transition"
               >
                 Submit
               </button>
