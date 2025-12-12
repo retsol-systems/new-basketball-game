@@ -17,7 +17,6 @@ interface MerchantType {
 
 export default function Home() {
   const router = useRouter();
-  const [selectedMerchant, setSelectedMerchant] = useState<number | undefined>()
   const [merchantsList, setMerchantsList] = useState<MerchantType[]>(gcs)
   const [selectedList, setSelectedList] = useState<MerchantType[]>();
   const [didSelect, setDidSelect] = useState<boolean>(false);

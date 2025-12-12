@@ -5,6 +5,11 @@ import { useParams, useRouter } from "next/navigation";
 
 const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
 
+interface PromoProps {
+  name: string;
+  color: string;
+  description: string;
+}
 export default function Home() {
   const params = useParams();
   const brand = params?.page;
@@ -14,14 +19,15 @@ export default function Home() {
   const [isMuted, setisMuted] = useState(false);
   const [playing, setPlaying] = useState(false); // start paused
   const playerRef = useRef(null);
+  const [selected, setSelected] = useState<PromoProps | null>(null);
   const router = useRouter();
   const rawSelected = sessionStorage.getItem("selected");
-  let selected: any = null;
+ 
   try {
-    selected = rawSelected ? JSON.parse(rawSelected) : null;
+   setSelected(rawSelected ? JSON.parse(rawSelected) : null);
   } catch (err) {
     console.error("Failed to parse sessionStorage.selected:", err);
-    selected = null;
+   setSelected(null)
   }
   
 
@@ -44,7 +50,7 @@ export default function Home() {
           
           <div className="w-full h-1/5 flex flex-col py-3 justify-center items-center">
             <span className="text-2xl font-semibold">Watch and Win</span>
-            <span className="text-md italic">{selected.description}</span>
+            <span className="text-md italic">{selected?.description}</span>
           </div>
 
           <div className="w-full h-4/7 px-4 flex flex-col justify-center items-center">

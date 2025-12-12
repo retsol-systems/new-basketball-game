@@ -3,8 +3,6 @@ import { useState, useRef, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { useParams, useRouter } from "next/navigation";
 
-const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
-
 export default function Home() {
   const params = useParams();
   const brand = params?.page;
