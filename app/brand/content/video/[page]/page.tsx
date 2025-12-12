@@ -61,9 +61,7 @@ export default function Home() {
               muted={isMuted}                   // ✅ ensures autoplay allowed
               width="100%"
               height="100%"
-               // typescript error and everything elese
-              //@ts-expect-error
-               // typescript error and everything elese
+            // @ts-expect-error: This library doesn't have types for foo
               onProgress={({ played }) => setPlayed(played)}
               onEnded={() => router.push(`/brand/content/reward/${brand}`)}
             />

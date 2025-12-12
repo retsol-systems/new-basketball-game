@@ -73,9 +73,7 @@ bar.style.transform = "scaleX(0)";
           <div className="w-full h-4/7 px-4 flex flex-col justify-center items-center">
           
             <img src={infoGraphicImage} alt={`${brand} image`} className="max-w-48 w-full" 
-                  // typescript error and everything elese
-              //@ts-expect-error
-              // typescript error and everything elese
+          // @ts-expect-error: This library doesn't have types for foo
             onError={(e)=>{e.target.onError = null; router.push('/')}}/>
            
           </div>
