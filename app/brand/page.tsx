@@ -13,8 +13,8 @@ type ColorConfig = Record<BrandColor, { color: string; background: string; foreg
 function pickBrand(): { name: string; color: BrandColor, description: string } {
   const productList: { name: string; color: BrandColor, description:string }[] = [
     
-    { name: "sunsilk-one", color: "yellow", description:"Sunsilk Green" },
-    { name: "sunsilk-two", color: "yellow", description:"Sunsilk Pink" },
+    // { name: "sunsilk-one", color: "yellow", description:"Sunsilk Green" },
+    // { name: "sunsilk-two", color: "yellow", description:"Sunsilk Pink" },
     { name: "creamsilk-one", color: "yellow", description:" Creamsilk Vitamin Boost" },
      { name: "creamsilk-two", color: "yellow", description:" Creamsilk Color Protect Series" },
    
