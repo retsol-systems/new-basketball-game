@@ -81,7 +81,7 @@ bar.style.transform = "scaleX(0)";
 
           <div className="w-full h-1/5 flex justify-center items-center">
             <button
-              className="bg-orange-600 p-4  rounded-lg text-white font-semibold  px-2 py-3 rounded-xl w-1/3"
+              className="bg-[#006285] hover:bg-[#0080c4] p-4  rounded-lg text-white font-semibold  px-2 py-3 rounded-xl w-1/3"
               onClick={startTimer}// ✅ user-initiated play
             >
               Start

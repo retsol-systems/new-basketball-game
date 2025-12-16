@@ -160,7 +160,7 @@ function SelectedReward(){
      <div className="w-full ">
      <button
               onClick={goReward}
-              className="bg-orange-600 p-4 w-full rounded-lg text-white font-semibold "
+              className="bg-[#006285] hover:bg-[#0080c4] p-4 w-full rounded-lg text-white font-semibold "
             >
               Submit
             </button>

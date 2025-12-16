@@ -295,7 +295,7 @@ export default function Home() {
               </p>
               <button
                 type="submit"
-                className="mt-2 py-2 px-4 bg-[#dc0046] text-white font-semibold sha rounded-md hover:bg-red-700 transition"
+                className="mt-2 py-2 px-4 bg-[#006285] hover:bg-[#0080c4] text-white font-semibold sha rounded-md  transition"
               >
                 Submit
               </button>

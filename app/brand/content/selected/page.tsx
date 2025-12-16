@@ -32,7 +32,7 @@ export default function Home() {
              <div className="flex flex-col justify-center items-center w-full p-5 h-3/5 text-center ">
             <button
               onClick={playAgain}
-              className="bg-orange-600 p-4 w-full rounded-lg text-white font-semibold "
+              className="bg-[#006285] hover:bg-[#0080c4] p-4 w-full rounded-lg text-white font-semibold "
             >
               Done
             </button>
