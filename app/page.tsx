@@ -17,6 +17,12 @@ type FormValues = {
 };
 
 export default function Home() {
+
+  useEffect(() => {
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("/sw.js");
+  }
+}, []);
   const router = useRouter();
 
   const [formData, setFormData] = useState<FormValues>({
