@@ -152,7 +152,10 @@ export default function Home() {
   };
 
   return (
-    <div className="font-sans flex flex-col items-center justify-center w-full min-h-screen bg-[#d6c725] p-4 overflow-hidden">
+    <div className="font-sans flex flex-col items-center justify-center w-full min-h-screen bg-cover bg-center relative p-4 overflow-hidden"
+    
+   
+      style={{ backgroundImage: `url('/assets/yellow.jpg')` }}>
       <main className="flex flex-col md:flex-row gap-8 items-center md:items-start justify-center w-full max-w-6xl">
         {/* Left section */}
         <div className="flex flex-col w-full md:w-3/5 lg:w-2/5 bg-white rounded-xl shadow-md overflow-hidden">
