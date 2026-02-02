@@ -161,13 +161,13 @@ export default function Home() {
     <div className="font-sans flex flex-col items-center justify-center w-full min-h-screen bg-gradient-to-br from-blue-300 to-gray-200 p-4 overflow-hidden">
       <main className="flex flex-col md:flex-row gap-8 items-center md:items-start justify-center w-full max-w-6xl">
         {/* Left section */}
-        <div className="flex flex-col w-full md:w-3/5 lg:w-2/5 bg-gradient-to-br from-blue-300 to-gray-200 shadow-md overflow-hidden">
+        <div className="flex flex-col w-full md:w-full px-5 lg:w-2/5 bg-gradient-to-br from-blue-300 to-gray-200 shadow-md overflow-hidden">
           {/* Image */}
           <div className="flex justify-center items-center w-full p-2">
             <img
               alt="basketball-hoop"
               src="/assets/images/basketball-hoop.png"
-              className="max-w-full max-h-64 pt-2 object-contain"
+              className="max-w-full max-h-74 pt-2 object-contain"
             />
           </div>
 
@@ -178,14 +178,14 @@ export default function Home() {
             >
               {/* Full Name */}
               <div className="flex flex-col">
-                <label className="font-medium text-gray-700">Full Name</label>
+                <label className="font-medium text-xl text-gray-700">Full Name</label>
                 <input
                   type="text"
                   name="fullName"
                   value={formData.fullName}
                   onChange={handleChange}
                   placeholder="Juan Dela Cruz"
-                  className="mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  className="mt-1 p-2 border border-gray-300 h-16 text-2xl bg-white/40 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
                 />
                 {errors.fullName && (
                   <span className="text-red-500 text-sm">
@@ -195,7 +195,7 @@ export default function Home() {
               </div>
               {/* Email Address */}
               <div className="flex flex-col">
-                <label className="font-medium text-gray-700">
+                <label className="font-medium text-xl text-gray-700">
                   Email Address
                 </label>
                 <input
@@ -204,7 +204,7 @@ export default function Home() {
                   value={formData.emailAddress}
                   onChange={handleChange}
                   placeholder="juan.delacruz@gmail.com"
-                  className="mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  className="mt-1 p-2 border h-16 text-2xl bg-white/40  border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
                 />
                 {errors.emailAddress && (
                   <span className="text-red-500 text-sm">
@@ -219,7 +219,7 @@ export default function Home() {
               </div>
               {/* Mobile Number */}
               <div className="flex flex-col">
-                <label className="font-medium text-gray-700">
+                <label className="font-medium text-xl text-gray-700">
                   Account Number
                 </label>
                 <input
@@ -232,7 +232,7 @@ export default function Home() {
                   inputMode="numeric"
                   pattern="[0-9]*"
                   placeholder="xxxxxxxxxxxxx"
-                  className="mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  className="mt-1 p-2 border  h-16 text-2xl bg-white/40 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
                 />
                 {errors.storexNumber && (
                   <span className="text-red-500 text-sm">
@@ -242,7 +242,7 @@ export default function Home() {
               </div>
               {/* Checkboxes */}
               {/* Checkboxes */}
-              <label className="text-sm">
+              <label className="text-lg">
                 <input
                   type="checkbox"
                   name="accepted"
@@ -255,7 +255,7 @@ export default function Home() {
               {errors.accepted && (
                 <span className="text-red-500 text-sm">{errors.accepted}</span>
               )}
-              <label className="text-sm">
+              <label className="text-lg">
                 <input
                   type="checkbox"
                   name="brand_newsletter"
@@ -265,7 +265,7 @@ export default function Home() {
                 />
                 Sign me up to receive exciting news and offers from Rexona
               </label>
-              <label className="text-sm">
+              <label className="text-lg">
                 <input
                   type="checkbox"
                   name="ulp_newsletter"
@@ -279,7 +279,7 @@ export default function Home() {
               {errorMessage && (
                 <span className="text-red-500 text-sm">{errorMessage}</span>
               )}
-              <p className="text-xs text-justify text-gray-600">
+              <p className="text-md text-justify text-gray-600">
                 <i>
                   Please read our{" "}
                   <a
@@ -301,7 +301,7 @@ export default function Home() {
               </p>
               <button
                 type="submit"
-                className="mt-2 py-2 px-4 bg-orange-600 text-white font-semibold sha rounded-md hover:bg-orange-700 transition"
+                className="mt-2 py-4 px-4 bg-orange-600 text-white font-semibold sha text-xl rounded-md hover:bg-orange-700 transition"
               >
                 Submit
               </button>

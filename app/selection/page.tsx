@@ -343,15 +343,15 @@ const gcs = [
     description:
       "Global consumer goods company producing food, beverages, cleaning agents, and personal care products.",
   },
-  {
-    img: "/assets/images/Puregold-Logo-512x512.png",
-    type: "Puregold",
-    id: "13",
-    code: "PUREGOLD150",
-    name: "Puregold Price Club, Inc.",
-    voucherName: "Puregold Voucher",
-    voucherValue: "₱150",
-    description:
-      "Philippine supermarket chain offering groceries and household essentials.",
-  },
+  // {
+  //   img: "/assets/images/Puregold-Logo-512x512.png",
+  //   type: "Puregold",
+  //   id: "13",
+  //   code: "PUREGOLD150",
+  //   name: "Puregold Price Club, Inc.",
+  //   voucherName: "Puregold Voucher",
+  //   voucherValue: "₱150",
+  //   description:
+  //     "Philippine supermarket chain offering groceries and household essentials.",
+  // },
 ];
