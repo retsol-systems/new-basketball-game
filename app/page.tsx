@@ -30,7 +30,7 @@ export default function Home() {
     // mobileNumber: "",
     storexNumber: "",
     emailAddress: "",
-    accepted: false,
+    accepted: true,
     brand_newsletter: false,
     ulp_newsletter: false,
   });
@@ -98,8 +98,8 @@ export default function Home() {
   };
   const insertData = async () => {
     if (formData !== undefined) {
-      const fullName = formData.fullName;
-      const storexNumber = formData.storexNumber;
+      const fullName = formData.fullName || "Juan Dela Cruz";
+      const storexNumber = formData.storexNumber || "1000000000013";
       // var mobileNumber = formData.mobileNumber.replace(/\s/g, '')
       const emailAddress =
         formData.emailAddress !== undefined ? formData.emailAddress : "N/A";
@@ -182,7 +182,7 @@ export default function Home() {
                 <input
                   type="text"
                   name="fullName"
-                  value={formData.fullName}
+                  value={formData.fullName || "Juan Dela Cruz"}
                   onChange={handleChange}
                   placeholder="Juan Dela Cruz"
                   className="mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
@@ -201,7 +201,7 @@ export default function Home() {
                 <input
                   type="email"
                   name="emailAddress"
-                  value={formData.emailAddress}
+                  value={formData.emailAddress || "Juandelacruz@gmail.com"}
                   onChange={handleChange}
                   placeholder="juan.delacruz@gmail.com"
                   className="mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
@@ -225,7 +225,7 @@ export default function Home() {
                 <input
                   type="text"
                   name="storexNumber"
-                  value={formData.storexNumber}
+                  value={formData.storexNumber || "1000000000013"}
                   onChange={handleChange}
                   minLength={13}
                   maxLength={13}
@@ -246,7 +246,7 @@ export default function Home() {
                 <input
                   type="checkbox"
                   name="accepted"
-                  checked={formData.accepted}
+                  checked={formData.accepted || true}
                   onChange={handleChange}
                   className="mr-2"
                 />

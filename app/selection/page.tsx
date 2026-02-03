@@ -1,5 +1,6 @@
 "use client";
 
+import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -140,6 +141,47 @@ export default function Home() {
 
 function SelectedReward() {
   const router = useRouter();
+      const fullName = sessionStorage.getItem("fullName");
+    const getCustomFormattedDate = () => {
+    const today = new Date();
+    const month = today.getMonth() + 1; // Months are 0-based
+    const day = today.getDate();
+    const year = today.getFullYear();
+    let hours = today.getHours();
+    hours = hours % 12;
+    hours = hours ? hours : 12;
+    const minutes = today.getMinutes();
+  
+    return `${month}${day}${year}${hours}${minutes}`;
+  };
+ const addLogs = async (
+  appId: string,
+  description: string,
+  customer: string,
+  control: string
+): Promise<boolean> => {
+  try {
+    const response = await axios.post(
+       `${process.env.NEXT_PUBLIC_API_URL}/create/logs`,
+      {
+        appId,
+        rewardDescription: description,
+        customer,
+        controlNo: control
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    return true;   // success
+  } catch (error) {
+    console.error("Error creating logs:", error);
+    return false;  // error happened
+  }
+};
   const selectedReward = sessionStorage.getItem("rewardSelected");
   console.log(selectedReward);
   const [merchant, setMerchant] = useState<MerchantType | undefined>(() => {
@@ -153,7 +195,9 @@ function SelectedReward() {
     return undefined;
   });
 
-  const goReward = () => {
+  const goReward = async () => {
+      const controlNumber = getCustomFormattedDate().toString() + "-" + (merchant?.voucherName ?? "");
+    const result = await addLogs("Cmiqv9a54000304lbd8dv58xb", merchant?.description ?? "", fullName ?? "", controlNumber);
     router.push("/reward");
   };
 
