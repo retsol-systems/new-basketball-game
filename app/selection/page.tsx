@@ -58,7 +58,7 @@ export default function Home() {
   //     router.push("/");
   //   };
 
-  const selectReward = (selected: number) => {
+  const selectReward = async (selected: number) => {
     if (selected) {
       const selectedMerchantObj = merchantsList.find(
         (m) => m.id === selected.toString()
@@ -70,7 +70,8 @@ export default function Home() {
         );
       }
       setDidSelect(true);
-      console.log(selected);
+  
+          console.log(selected);
       console.log(merchantsList.length);
     }
     // router.push("/reward");
@@ -183,6 +184,7 @@ function SelectedReward() {
   }
 };
   const selectedReward = sessionStorage.getItem("rewardSelected");
+  
   console.log(selectedReward);
   const [merchant, setMerchant] = useState<MerchantType | undefined>(() => {
     if (selectedReward) {
@@ -197,7 +199,7 @@ function SelectedReward() {
 
   const goReward = async () => {
       const controlNumber = getCustomFormattedDate().toString() + "-" + (merchant?.voucherName ?? "");
-    const result = await addLogs("Cmiqv9a54000304lbd8dv58xb", merchant?.description ?? "", fullName ?? "", controlNumber);
+    const result = await addLogs("Cmiqv97ko000004lb2ko6awvl", merchant?.description ?? "", fullName ?? "", controlNumber);
     router.push("/reward");
   };
 
@@ -387,15 +389,15 @@ const gcs = [
     description:
       "Global consumer goods company producing food, beverages, cleaning agents, and personal care products.",
   },
-  {
-    img: "/assets/images/Puregold-Logo-512x512.png",
-    type: "Puregold",
-    id: "13",
-    code: "PUREGOLD150",
-    name: "Puregold Price Club, Inc.",
-    voucherName: "Puregold Voucher",
-    voucherValue: "₱150",
-    description:
-      "Philippine supermarket chain offering groceries and household essentials.",
-  },
+  // {
+  //   img: "/assets/images/Puregold-Logo-512x512.png",
+  //   type: "Puregold",
+  //   id: "13",
+  //   code: "PUREGOLD150",
+  //   name: "Puregold Price Club, Inc.",
+  //   voucherName: "Puregold Voucher",
+  //   voucherValue: "₱150",
+  //   description:
+  //     "Philippine supermarket chain offering groceries and household essentials.",
+  // },
 ];
