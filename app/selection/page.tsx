@@ -404,7 +404,7 @@ const gcs = [
       "Grab’s food delivery service connecting customers with nearby restaurants.",
   },
   {
-    img: "/assets/images/sm-logo.png",
+    img: "/assets/images/sm_logo.png",
     type: "SM",
     id: "12",
     code: "SM300",
