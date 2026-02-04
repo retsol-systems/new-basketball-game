@@ -404,16 +404,28 @@ const gcs = [
       "Grab’s food delivery service connecting customers with nearby restaurants.",
   },
   {
-    img: "https://1000logos.net/wp-content/uploads/2017/06/Unilever-Logo-768x582.png",
-    type: "Unilever",
+    img: "/assets/images/sm-logo.png",
+    type: "SM",
     id: "12",
-    code: "UNILEVER300",
-    name: "Unilever PLC",
-    voucherName: "Unilever Voucher",
+    code: "SM300",
+    name: "SM Gift Certificate",
+    voucherName: "Sm Gift Voucher",
     voucherValue: "₱300",
     description:
-      "Global consumer goods company producing food, beverages, cleaning agents, and personal care products.",
-  },
+      "SM is the largest retailer in the Philippines",
+  }
+
+  // {
+  //   img: "https://1000logos.net/wp-content/uploads/2017/06/Unilever-Logo-768x582.png",
+  //   type: "Unilever",
+  //   id: "12",
+  //   code: "UNILEVER300",
+  //   name: "Unilever PLC",
+  //   voucherName: "Unilever Voucher",
+  //   voucherValue: "₱300",
+  //   description:
+  //     "Global consumer goods company producing food, beverages, cleaning agents, and personal care products.",
+  // },
   // {
   //   img: "/assets/images/Puregold-Logo-512x512.png",
   //   type: "Puregold",
