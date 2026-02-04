@@ -24,7 +24,7 @@ export default function Home() {
   }
 }, []);
   const router = useRouter();
-
+  const [pressed, setPressed] = useState<boolean>(false);
   const [formData, setFormData] = useState<FormValues>({
     fullName: "",
     // mobileNumber: "",
@@ -91,6 +91,7 @@ export default function Home() {
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     if (validate()) {
+      setPressed(true);
       insertData();
     }
     // console.log("Form submitted:", formData);
@@ -301,9 +302,17 @@ export default function Home() {
               </p>
               <button
                 type="submit"
-                className="mt-2 py-4 px-4 bg-orange-600 text-white font-semibold sha text-xl rounded-md hover:bg-orange-700 transition"
+                className="mt-2 py-4 px-4  bg-orange-600 text-white font-semibold sha text-xl rounded-md hover:bg-orange-700 transition"
               >
-                Submit
+                <div className="flex flex-row justify-center items-center">
+
+              {pressed ? (
+  <div className="size-5 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+) : (
+  <span>Submit</span>
+)}
+                
+              </div>
               </button>
             </form>
           </div>

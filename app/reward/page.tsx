@@ -7,6 +7,8 @@ import { useState, useEffect } from "react"; // Import hooks for confetti contro
 
 export default function Home() {
   const router = useRouter();
+  const [pressed, setPressed] = useState<boolean>(false);
+    
   const [showConfetti, setShowConfetti] = useState(false); // State to control confetti visibility
   const [windowDimension, setWindowDimension] = useState({
     width: 0,
@@ -36,6 +38,7 @@ export default function Home() {
   }, []); // Empty dependency array means this runs once on mount
 
   const playAgain = () => {
+    setPressed(true)
     sessionStorage.clear();
     router.push("/");
   };
@@ -86,7 +89,14 @@ export default function Home() {
                          transition-all duration-300 hover:bg-blue-700 hover:shadow-xl
                          focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
             >
-              Done
+                <div className="flex flex-row justify-center items-center">
+
+             {pressed ? (
+  <div className="size-5 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+) : (
+  <span>Done</span>
+)}
+</div>
             </button>
           </div>
         </div>

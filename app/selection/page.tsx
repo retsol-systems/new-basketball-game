@@ -23,7 +23,8 @@ export default function Home() {
   const [merchantsList, setMerchantsList] = useState<MerchantType[]>(gcs);
   const [selectedList, setSelectedList] = useState<MerchantType[]>();
   const [didSelect, setDidSelect] = useState<boolean>(false);
-
+  const [pressed, setPressed] = useState<boolean>(false);
+  
   useEffect(() => {
     const accepted = sessionStorage.getItem("accepted");
     const fullName = sessionStorage.getItem("fullName");
@@ -59,6 +60,7 @@ export default function Home() {
   //   };
 
   const selectReward = async (selected: number) => {
+    setPressed(true)
     if (selected) {
       const selectedMerchantObj = merchantsList.find(
         (m) => m.id === selected.toString()
@@ -105,7 +107,13 @@ export default function Home() {
                     key={merchant.id}
                     onClick={() => selectReward(parseInt(merchant.id))}
                   >
-                    <div className="flex p-4 items-center gap-4">
+                  
+                     <div className="flex flex-row justify-center items-center">
+
+             {pressed ? (
+  <div className="size-5 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+) : (
+    <div className="flex p-4 items-center gap-4">
                       {/* Image */}
                       <div className="flex-shrink-0 w-20 h-20 bg-gray-50 rounded-lg p-2 flex items-center justify-center overflow-hidden">
                         <img
@@ -129,6 +137,12 @@ export default function Home() {
                         </p>
                       </div>
                     </div>
+
+)}
+</div>
+                 
+
+
                   </div>
                 ))}
               </div>
@@ -141,6 +155,8 @@ export default function Home() {
 }
 
 function SelectedReward() {
+  const [pressed, setPressed] = useState<boolean>(false);
+    
   const router = useRouter();
       const fullName = sessionStorage.getItem("fullName");
     const getCustomFormattedDate = () => {
@@ -198,6 +214,7 @@ function SelectedReward() {
   });
 
   const goReward = async () => {
+    setPressed(true);
       const controlNumber = getCustomFormattedDate().toString() + "-" + (merchant?.voucherName ?? "");
     const result = await addLogs("Cmiqv97ko000004lb2ko6awvl", merchant?.description ?? "", fullName ?? "", controlNumber);
     router.push("/reward");
@@ -249,7 +266,15 @@ function SelectedReward() {
                            transition-all duration-300 hover:bg-blue-700 hover:shadow-xl
                            focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
           >
-            Done
+            <div className="flex flex-row justify-center items-center">
+
+              {pressed ? (
+  <div className="size-5 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+) : (
+  <span>Done</span>
+)}
+                
+              </div>
           </button>
         </div>
       </div>
