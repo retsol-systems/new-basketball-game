@@ -269,7 +269,7 @@ function SelectedReward() {
             <div className="flex flex-row justify-center items-center">
 
               {pressed ? (
-  <div className="size-5 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+  <div className="size-5 border-4 border-white bg-white border-t-transparent rounded-full animate-spin"></div>
 ) : (
   <span>Done</span>
 )}
