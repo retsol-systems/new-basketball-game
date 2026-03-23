@@ -17,14 +17,20 @@ type FormValues = {
 };
 
 export default function Home() {
-  const router = useRouter();
 
+  useEffect(() => {
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("/sw.js");
+  }
+}, []);
+  const router = useRouter();
+  const [pressed, setPressed] = useState<boolean>(false);
   const [formData, setFormData] = useState<FormValues>({
     fullName: "",
     // mobileNumber: "",
     storexNumber: "",
     emailAddress: "",
-    accepted: false,
+    accepted: true,
     brand_newsletter: false,
     ulp_newsletter: false,
   });
@@ -85,6 +91,7 @@ export default function Home() {
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     if (validate()) {
+      setPressed(true);
       insertData();
     }
     // console.log("Form submitted:", formData);
@@ -92,8 +99,8 @@ export default function Home() {
   };
   const insertData = async () => {
     if (formData !== undefined) {
-      const fullName = formData.fullName;
-      const storexNumber = formData.storexNumber;
+      const fullName = formData.fullName || "Juan Dela Cruz";
+      const storexNumber = formData.storexNumber || "1000000000013";
       // var mobileNumber = formData.mobileNumber.replace(/\s/g, '')
       const emailAddress =
         formData.emailAddress !== undefined ? formData.emailAddress : "N/A";
@@ -156,15 +163,16 @@ export default function Home() {
     
    
       style={{ backgroundImage: `url('/assets/yellow.jpg')` }}>
+
       <main className="flex flex-col md:flex-row gap-8 items-center md:items-start justify-center w-full max-w-6xl">
         {/* Left section */}
-        <div className="flex flex-col w-full md:w-3/5 lg:w-2/5 bg-white rounded-xl shadow-md overflow-hidden">
+         <div className="flex flex-col w-full md:w-full lg:w-2/5 bg-white rounded-xl shadow-md overflow-hidden">
           {/* Image */}
           <div className="flex justify-center items-center w-full p-2">
             <img
               alt="basketball-hoop"
               src="/assets/images/basketball-hoop.png"
-              className="max-w-full max-h-64 pt-2 object-contain"
+              className="max-w-full max-h-74 pt-2 object-contain"
             />
           </div>
 
@@ -175,14 +183,14 @@ export default function Home() {
             >
               {/* Full Name */}
               <div className="flex flex-col">
-                <label className="font-medium text-gray-700">Full Name</label>
+                <label className="font-medium text-xl text-gray-700">Full Name</label>
                 <input
                   type="text"
                   name="fullName"
-                  value={formData.fullName}
+                  value={formData.fullName || "Juan Dela Cruz"}
                   onChange={handleChange}
                   placeholder="Juan Dela Cruz"
-                  className="mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  className="mt-1 p-2 border border-gray-300 h-16 text-2xl bg-white/40 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
                 />
                 {errors.fullName && (
                   <span className="text-red-500 text-sm">
@@ -192,16 +200,16 @@ export default function Home() {
               </div>
               {/* Email Address */}
               <div className="flex flex-col">
-                <label className="font-medium text-gray-700">
+                <label className="font-medium text-xl text-gray-700">
                   Email Address
                 </label>
                 <input
                   type="email"
                   name="emailAddress"
-                  value={formData.emailAddress}
+                  value={formData.emailAddress || "Juandelacruz@gmail.com"}
                   onChange={handleChange}
                   placeholder="juan.delacruz@gmail.com"
-                  className="mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  className="mt-1 p-2 border h-16 text-2xl bg-white/40  border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
                 />
                 {errors.emailAddress && (
                   <span className="text-red-500 text-sm">
@@ -216,20 +224,20 @@ export default function Home() {
               </div>
               {/* Mobile Number */}
               <div className="flex flex-col">
-                <label className="font-medium text-gray-700">
+                <label className="font-medium text-xl text-gray-700">
                   Account Number
                 </label>
                 <input
                   type="text"
                   name="storexNumber"
-                  value={formData.storexNumber}
+                  value={formData.storexNumber || "1000000000013"}
                   onChange={handleChange}
                   minLength={13}
                   maxLength={13}
                   inputMode="numeric"
                   pattern="[0-9]*"
                   placeholder="xxxxxxxxxxxxx"
-                  className="mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  className="mt-1 p-2 border  h-16 text-2xl bg-white/40 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500"
                 />
                 {errors.storexNumber && (
                   <span className="text-red-500 text-sm">
@@ -239,11 +247,11 @@ export default function Home() {
               </div>
               {/* Checkboxes */}
               {/* Checkboxes */}
-              <label className="text-sm">
+              <label className="text-lg">
                 <input
                   type="checkbox"
                   name="accepted"
-                  checked={formData.accepted}
+                  checked={formData.accepted || true}
                   onChange={handleChange}
                   className="mr-2"
                 />
@@ -252,7 +260,7 @@ export default function Home() {
               {errors.accepted && (
                 <span className="text-red-500 text-sm">{errors.accepted}</span>
               )}
-              <label className="text-sm">
+              <label className="text-lg">
                 <input
                   type="checkbox"
                   name="brand_newsletter"
@@ -262,7 +270,7 @@ export default function Home() {
                 />
                 Sign me up to receive exciting news and offers from Rexona
               </label>
-              <label className="text-sm">
+              <label className="text-lg">
                 <input
                   type="checkbox"
                   name="ulp_newsletter"
@@ -276,7 +284,7 @@ export default function Home() {
               {errorMessage && (
                 <span className="text-red-500 text-sm">{errorMessage}</span>
               )}
-              <p className="text-xs text-justify text-gray-600">
+              <p className="text-md text-justify text-gray-600">
                 <i>
                   Please read our{" "}
                   <a
@@ -298,9 +306,17 @@ export default function Home() {
               </p>
               <button
                 type="submit"
-                className="mt-2 py-2 px-4 bg-[#006285] hover:bg-[#0080c4] text-white font-semibold sha rounded-md  transition"
+                className="mt-2 py-4 px-4  bg-[#006285] text-white font-semibold sha text-xl rounded-md  hover:bg-[#0080c4]transition"
               >
-                Submit
+                <div className="flex flex-row justify-center items-center">
+
+              {pressed ? (
+  <div className="size-5 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+) : (
+  <span>Submit</span>
+)}
+                
+              </div>
               </button>
             </form>
           </div>

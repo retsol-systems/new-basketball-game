@@ -47,11 +47,14 @@ export default function Home() {
     <div className="flex min-h-screen items-center justify-center font-sans">
       <main className="flex h-screen w-full max-w-3xl flex-col items-center justify-center md:py-32 py-4 md:px-16 px-4 sm:items-start">
         <div className="bg-gray-200 shadow-xl rounded-xl sm:h-4/5 h-fit py-4  w-full flex flex-col sm:justify-center justify-between items-center gap-6 text-center sm:items-start sm:text-left">
-          
-          <div className="w-full h-1/5 flex flex-col py-3 justify-center items-center">
-            <span className="text-2xl font-semibold">Watch and Win</span>
-            <span className="text-md italic">{selected?.description}</span>
-          </div>
+      <div className="w-full h-1/5 flex flex-col py-3 justify-center items-center">
+  <img
+    src="/assets/images/waltermart_header.png"
+    alt="Watch and Win"
+    className="h-100 object-contain"
+  />
+  <span className="text-xl font-bold italic text-blue-900">{selected?.description}</span>
+</div>
 
           <div className="w-full h-4/7 px-4 flex flex-col justify-center items-center">
             <ReactPlayer
