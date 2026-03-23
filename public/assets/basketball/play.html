@@ -9,7 +9,7 @@
       href="/assets/basketball/css/font-loader.css"
     />
     <script
-      type="text/javascript"z
+      type="text/javascript"
       src="https://cdnjs.cloudflare.com/ajax/libs/phaser/2.6.2/phaser.min.js"
     ></script>
     <style type="text/css">
@@ -82,7 +82,7 @@
         }
       }
 
-      const TIME = 5000; // 30 seconds
+      const TIME = 10000; // 30 seconds
 
       var leftRimSprite, rightRimSprite, frontRimSprite, ballSprite;
       var scoreSound, rimHitSound, throwSound, spawnSound, buzzerSound;
@@ -96,7 +96,7 @@
         timeExpired = false; // turns to true when timeLeft gets to 0
       var digital7Loaded;
       var bgImageScale;
-
+    var waitingForShotToFinish = false;
       function create() {
         const backgroundImage = game.add.image(0, 0, "arcade");
         // const bgImage = game.add.image(0, 0, "bg");
@@ -206,16 +206,15 @@
         sessionStorage.setItem("endTime", endTime);
       }
 
-      function timesUp() {
-        if (!ballSprite.launched) {
-          ballSprite.kill();
-        }
-        if (gameParams.playAudio) {
-          playSound(buzzerSound);
-        } else {
-          gameOver();
-        }
-      }
+ function timesUp() {
+  if (ballSprite && ballSprite.launched) {
+    // Let the shot finish first
+    waitingForShotToFinish = true;
+  } else {
+    // No active shot → end immediately
+    endGameFlow();
+  }
+}
 
       function update() {
         if (ballSprite && ballSprite.body.velocity.y > 0) {
@@ -248,13 +247,17 @@
           timesUp();
         }
 
-        if (ballSprite && ballSprite.body.y > gameParams.ballDeadEnd) {
-          game.physics.p2.gravity.y = 0;
-          ballSprite.kill();
-          if (timeLeft > 0) {
-            createBall();
-          }
-        }
+     if (ballSprite && ballSprite.body.y > gameParams.ballDeadEnd) {
+  game.physics.p2.gravity.y = 0;
+  ballSprite.kill();
+
+  if (waitingForShotToFinish) {
+    // Shot finished → now end game
+    endGameFlow();
+  } else if (timeLeft > 0) {
+    createBall();
+  }
+}
 
         timeLeftText.text = Math.ceil(timeLeft / 1000);
         scoreText.text = score;
@@ -307,7 +310,13 @@
         ballSprite.launched = false;
         ballSprite.isBelowHoop = false;
       }
-
+function endGameFlow() {
+  if (gameParams.playAudio) {
+    playSound(buzzerSound);
+  } else {
+    gameOver();
+  }
+}
       var location_interval;
       var isDown = false;
       var start_location;
@@ -355,8 +364,8 @@
         return Math.tan((degrees * Math.PI) / 180);
       }
 
-      function launch(x_traj) {
-        if (ballSprite.launched === false && !timeExpired) {
+    function launch(x_traj) {
+  if (ballSprite.launched === false && !timeExpired && !waitingForShotToFinish) {
           ballSprite.body.setCircle((120 * (ballSprite.scale.x * 0.6)) / 2); // 120 is the size of the ball image
           ballSprite.body.setCollisionGroup(collisionGroup);
           ballSprite.launched = true;
