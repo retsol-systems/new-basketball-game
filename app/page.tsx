@@ -19,10 +19,13 @@ type FormValues = {
 export default function Home() {
 
   useEffect(() => {
-  if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("/sw.js");
-  }
-}, []);
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker
+        .register("/service-worker.js")
+        .then((reg) => console.log("SW registered:", reg))
+        .catch((err) => console.error("SW failed:", err));
+    }
+  }, []);
   const router = useRouter();
   const [pressed, setPressed] = useState<boolean>(false);
   const [formData, setFormData] = useState<FormValues>({
