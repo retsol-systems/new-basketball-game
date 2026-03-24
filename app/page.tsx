@@ -169,7 +169,7 @@ export default function Home() {
 
       <main className="flex flex-col md:flex-row gap-8 items-center md:items-start justify-center w-full max-w-6xl">
         {/* Left section */}
-         <div className="flex flex-col w-full md:w-full lg:w-2/5 bg-white rounded-xl shadow-md overflow-hidden">
+         <div className="flex flex-col w-full md:w-full lg:w-4/5 bg-white rounded-xl shadow-md overflow-hidden">
           {/* Image */}
           <div className="flex justify-center items-center w-full p-2">
             <img
